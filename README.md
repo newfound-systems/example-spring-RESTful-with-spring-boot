@@ -1,4 +1,4 @@
-# Project - Spring RESTful CRUD Service using SpringBoot
+# Spring RESTful CRUD Service using SpringBoot
 Comprehensive Spring RESTful Server and Client Application with CRUD Service (inMemory). Contributors are most welcome and you are free to distribute and usage. Liked Sources, Just send Thanks to [NEWFOUND SYSTEMS (http://www.newfound-systems.com) support@newfound-systems.com]
 
 ## Getting Started
@@ -83,10 +83,10 @@ You can uncomment **src/main/resources/application.properties** to run secured s
 We use [Apache Subversion (https://subversion.apache.org/)] for versioning. 
 
 ## Authors
-* **Chetan Anand** - *Initial work* - [NEWFOUND SYSTEMS http://www.newfound-systems.com]
+* **Chetan Anand** - *Developer* - [NEWFOUND SYSTEMS http://www.newfound-systems.com]
 
 ## License
-This project is licensed under the Open Free for all License.
+This project is licensed under Free for All.
 
 ## Acknowledgments
 * Many Inspirations from http://websystique.com for their walk through of Spring related technologies and our big Gurus out in Stack OverFlow. Thanks
