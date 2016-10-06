@@ -253,7 +253,7 @@ public class PersonDaoServiceImpl implements PersonDaoService {
 	 */
 	public boolean manualCreatePerson(Person person) {
 		log.info("Creating user defined (manual) person: " + person.toString());
-		if(isUserExist(person.getId())) {
+		if(isPersonExist(person.getId())) {
 			log.info("User: " + person + " already exists");
 			return false;
 		}
@@ -271,7 +271,7 @@ public class PersonDaoServiceImpl implements PersonDaoService {
 	 * com.newfound.rest.server.service.PersonDaoService#isUserExist(java.lang.
 	 * Integer)
 	 */
-	public boolean isUserExist(Integer id) {
+	public boolean isPersonExist(Integer id) {
 		Person person = null;
 		boolean exists = false;
 		for (Iterator<Person> iter = personList.getPersons().listIterator(); iter.hasNext();) {

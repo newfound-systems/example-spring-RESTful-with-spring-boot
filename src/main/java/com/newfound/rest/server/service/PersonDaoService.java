@@ -85,5 +85,5 @@ public interface PersonDaoService {
 	 * @param id
 	 * @return
 	 */
-	boolean isUserExist(Integer id);
+	boolean isPersonExist(Integer id);
 }
