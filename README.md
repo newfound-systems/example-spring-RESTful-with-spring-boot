@@ -86,7 +86,7 @@ We use [Apache Subversion (https://subversion.apache.org/)] for versioning.
 * **Chetan Anand** - *Developer* - [NEWFOUND SYSTEMS http://www.newfound-systems.com]
 
 ## License
-This project is licensed under Free for All.
+This project is licensed under the Open Free for all License.
 
 ## Acknowledgments
 * Many Inspirations from http://websystique.com for their walk through of Spring related technologies and our big Gurus out in Stack OverFlow. Thanks

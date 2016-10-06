@@ -12,10 +12,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.newfound.rest.server.constants.Gender;
+import com.newfound.rest.server.model.Person;
 import com.newfound.rest.server.model.PersonList;
 import com.newfound.rest.server.service.PersonDaoServiceImpl;
 
@@ -79,15 +81,31 @@ public class RestServiceController {
 	}
 
 	/**
-	 * Create Person
+	 * Create Person - Auto
 	 * 
 	 * @param id
 	 * @return
 	 */
-	@PostMapping("/create")
-	public ResponseEntity<PersonList> createPerson(@AuthenticationPrincipal final UserDetails user) {
-		PersonList persons = personDaoServiceImpl.createPerson();
+	@PostMapping("/autoCreate")
+	public ResponseEntity<PersonList> autoCreatePerson(@AuthenticationPrincipal final UserDetails user) {
+		PersonList persons = personDaoServiceImpl.autoCreatePerson();
 		return new ResponseEntity<PersonList>(persons, HttpStatus.OK);
+	}
+
+	/**
+	 * Add Person - Manual
+	 * 
+	 * @param id
+	 * @return
+	 */
+	@PostMapping("/manualCreate")
+	public ResponseEntity<String> manualCreatePerson(@AuthenticationPrincipal final UserDetails user,
+			@RequestBody Person person) {
+		boolean success = personDaoServiceImpl.manualCreatePerson(person);
+		if (!success) {
+			return new ResponseEntity<String>("Person already exists for ID: " + person.getId(), HttpStatus.CONFLICT);
+		}
+		return new ResponseEntity<String>("Person created, ID: " + person.getId(), HttpStatus.CREATED);
 	}
 
 	/**

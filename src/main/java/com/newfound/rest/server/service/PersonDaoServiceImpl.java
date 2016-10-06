@@ -99,7 +99,7 @@ public class PersonDaoServiceImpl implements PersonDaoService {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see hello.PersonRepo#findAllPersons()
+	 * @see com.newfound.rest.server.service.PersonDaoService#findAllPersons()
 	 */
 	public PersonList findAllPersons() {
 		return personList;
@@ -108,7 +108,7 @@ public class PersonDaoServiceImpl implements PersonDaoService {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see hello.PersonRepo#findPerson(int)
+	 * @see com.newfound.rest.server.service.PersonDaoService#findPerson(int)
 	 */
 	public PersonList findPersonById(final Integer id) {
 		Predicate<Person> filter = new Predicate<Person>() {
@@ -123,7 +123,8 @@ public class PersonDaoServiceImpl implements PersonDaoService {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.newfound.rest.demo.PersonRepo#findPersonByFirstName(java.lang.String)
+	 * com.newfound.rest.server.service.PersonDaoService#findPersonByFirstName(
+	 * java.lang.String)
 	 */
 	public PersonList findPersonByFirstName(final String firstName) {
 		Predicate<Person> filter = new Predicate<Person>() {
@@ -138,7 +139,8 @@ public class PersonDaoServiceImpl implements PersonDaoService {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.newfound.rest.demo.PersonRepo#findPersonByGender(java.lang.String)
+	 * com.newfound.rest.server.service.PersonDaoService#findPersonByGender(java
+	 * .lang.String)
 	 */
 	public PersonList findPersonByGender(final Gender gender) {
 		Predicate<Person> filter = new Predicate<Person>() {
@@ -152,9 +154,9 @@ public class PersonDaoServiceImpl implements PersonDaoService {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.newfound.rest.demo.PersonRepo#createPerson(int)
+	 * @see com.newfound.rest.server.service.PersonDaoService#autoCreatePerson()
 	 */
-	public PersonList createPerson() {
+	public PersonList autoCreatePerson() {
 		Integer id = Integer.parseInt(DateTimeFormat.forPattern("yyMMddmmss").print(new DateTime()));
 		Person person = new Person(id, DEFAULT_FNAME, DEFAULT_LNAME, DEFAULT_EMAIL, Gender.MALE, 9000);
 		log.info("Creating new person id: " + id + "[yyMMddmmss]" + " " + person);
@@ -176,7 +178,8 @@ public class PersonDaoServiceImpl implements PersonDaoService {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.newfound.rest.demo.PersonRepo#deletePerson(Integer)
+	 * @see
+	 * com.newfound.rest.server.service.PersonDaoService#deletePerson(Integer)
 	 */
 	public PersonList deletePerson(Integer id) {
 		boolean success = false;
@@ -239,5 +242,45 @@ public class PersonDaoServiceImpl implements PersonDaoService {
 			persons.setPersons(Lists.newArrayList(newPerson));
 		}
 		return persons;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.newfound.rest.server.service.PersonDaoService#manualCreatePerson(com.
+	 * newfound.rest.server.model.Person)
+	 */
+	public boolean manualCreatePerson(Person person) {
+		log.info("Creating user defined (manual) person: " + person.toString());
+		if(isUserExist(person.getId())) {
+			log.info("User: " + person + " already exists");
+			return false;
+		}
+		/**
+		 * Add to Persons
+		 */
+		personList.getPersons().add(person);
+		return true;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.newfound.rest.server.service.PersonDaoService#isUserExist(java.lang.
+	 * Integer)
+	 */
+	public boolean isUserExist(Integer id) {
+		Person person = null;
+		boolean exists = false;
+		for (Iterator<Person> iter = personList.getPersons().listIterator(); iter.hasNext();) {
+			person = iter.next();
+			if (person.getId().equals(id)) {
+				exists = true;
+				break;
+			}
+		}
+		return exists;
 	}
 }

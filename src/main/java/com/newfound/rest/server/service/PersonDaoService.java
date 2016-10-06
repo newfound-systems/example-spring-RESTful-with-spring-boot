@@ -4,7 +4,10 @@
  */
 package com.newfound.rest.server.service;
 
+import java.util.Iterator;
+
 import com.newfound.rest.server.constants.Gender;
+import com.newfound.rest.server.model.Person;
 import com.newfound.rest.server.model.PersonList;
 
 public interface PersonDaoService {
@@ -46,11 +49,18 @@ public interface PersonDaoService {
 	PersonList findPersonByGender(Gender gender);
 
 	/**
-	 * Create Person
+	 * Manual Create Person
 	 * 
 	 * @return
 	 */
-	PersonList createPerson();
+	boolean manualCreatePerson(Person person);
+
+	/**
+	 * Auto Create Person
+	 * 
+	 * @return
+	 */
+	PersonList autoCreatePerson();
 
 	/**
 	 * Delete Person
@@ -68,4 +78,12 @@ public interface PersonDaoService {
 	 * @return
 	 */
 	PersonList updatePerson(Integer id, Integer newSalary);
+	
+	/**
+	 * Check if Person Exists
+	 * 
+	 * @param id
+	 * @return
+	 */
+	boolean isUserExist(Integer id);
 }

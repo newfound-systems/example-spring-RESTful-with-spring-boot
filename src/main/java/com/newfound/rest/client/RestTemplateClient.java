@@ -14,14 +14,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.codec.Base64;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import com.newfound.rest.server.constants.Gender;
 import com.newfound.rest.server.model.Person;
 import com.newfound.rest.server.model.PersonList;
 
 public class RestTemplateClient implements RestClientConstants {
 
 	static final Logger log = LoggerFactory.getLogger(RestTemplateClient.class);
+
+	static final String encodedLogin = new String(Base64.encode((USER + ":" + PASSWORD).getBytes()));
 
 	/**
 	 * Get Http Information from ResponseEntity
@@ -46,48 +50,78 @@ public class RestTemplateClient implements RestClientConstants {
 	}
 
 	/**
-	 * Exchange with RESTful Web Service as Client
+	 * Find by ID
 	 */
-	private void exchange() {
+	private void findById() {
 		RestTemplate restTemplate = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
 		/**
-		 * Authorization Encode in Base64
+		 * Authorization
 		 */
-		headers.add("Authorization", "Basic " + new String(Base64.encode((USER + ":" + PASSWORD).getBytes())));
-		/**
-		 * Find by ID
-		 */
-		{
-			HttpEntity<PersonList> requestEntity = new HttpEntity<PersonList>(headers);
-			String resourceUrl = REST_SERVICE_URL + FIND_BY_ID + "." + ResponseFormat.XML.getFormat();
-			ResponseEntity<PersonList> responseEntity = restTemplate.exchange(resourceUrl, HttpMethod.GET,
-					requestEntity, new ParameterizedTypeReference<PersonList>() {
-					});
-			getHttpResponseInfo(responseEntity);
-		}
-		/**
-		 * Create Person
-		 */
-		{
-			HttpEntity<PersonList> requestEntity = new HttpEntity<PersonList>(headers);
-			String resourceUrl = REST_SERVICE_URL + CREATE;
-			ResponseEntity<PersonList> responseEntity = restTemplate.exchange(resourceUrl, HttpMethod.POST,
-					requestEntity, new ParameterizedTypeReference<PersonList>() {
-					});
-			getHttpResponseInfo(responseEntity);
-		}
-		/**
-		 * Find By GENDER (MALE)
-		 */
-		{
-			HttpEntity<PersonList> requestEntity = new HttpEntity<PersonList>(headers);
-			String resourceUrl = REST_SERVICE_URL + FIND_BY_GENDER_MALE;
+		headers.add("Authorization", "Basic " + encodedLogin);
 
-			ResponseEntity<PersonList> responseEntity = restTemplate.exchange(resourceUrl, HttpMethod.GET,
-					requestEntity, new ParameterizedTypeReference<PersonList>() {
+		HttpEntity<PersonList> requestEntity = new HttpEntity<PersonList>(headers);
+		String resourceUrl = REST_SERVICE_URL + FIND_BY_ID + "." + ResponseFormat.XML.getFormat();
+		ResponseEntity<PersonList> responseEntity = restTemplate.exchange(resourceUrl, HttpMethod.GET, requestEntity,
+				new ParameterizedTypeReference<PersonList>() {
+				});
+		getHttpResponseInfo(responseEntity);
+	}
+
+	/**
+	 * Find by Gender
+	 */
+	private void findByGender() {
+		RestTemplate restTemplate = new RestTemplate();
+		HttpHeaders headers = new HttpHeaders();
+		/**
+		 * Authorization
+		 */
+		headers.add("Authorization", "Basic " + encodedLogin);
+
+		HttpEntity<PersonList> requestEntity = new HttpEntity<PersonList>(headers);
+		String resourceUrl = REST_SERVICE_URL + FIND_BY_GENDER_MALE;
+
+		ResponseEntity<PersonList> responseEntity = restTemplate.exchange(resourceUrl, HttpMethod.GET, requestEntity,
+				new ParameterizedTypeReference<PersonList>() {
+				});
+		getHttpResponseInfo(responseEntity);
+	}
+
+	/**
+	 * Create
+	 */
+	private void create() {
+		RestTemplate restTemplate = new RestTemplate();
+		HttpHeaders headers = new HttpHeaders();
+		/**
+		 * Authorization
+		 */
+		headers.add("Authorization", "Basic " + encodedLogin);
+
+		ResponseEntity<String> responseEntity = null;
+		try {
+			/**
+			 * Add Person
+			 */
+			Person person = new Person(10, "NEWFOUND", "SYSTEMS", "support@newfound-systems.com", Gender.MALE, 8888);
+			/**
+			 * Add content type JSON
+			 */
+			headers.setContentType(MediaType.APPLICATION_JSON);
+			HttpEntity<Person> requestEntity = new HttpEntity<Person>(person, headers);
+			String resourceUrl = REST_SERVICE_URL + CREATE;
+			responseEntity = restTemplate.exchange(resourceUrl, HttpMethod.POST, requestEntity,
+					new ParameterizedTypeReference<String>() {
 					});
-			getHttpResponseInfo(responseEntity);
+			/**
+			 * Get Status and RestController Response Body
+			 */
+			log.info("StatusCode: " + responseEntity.getStatusCode());
+			log.info("Message: " + responseEntity.getBody() + " "  + responseEntity.getStatusCodeValue());
+		} catch (HttpClientErrorException e) {
+			log.info(e.getStatusCode().toString());
+			log.info(e.getResponseBodyAsString());
 		}
 	}
 
@@ -97,6 +131,10 @@ public class RestTemplateClient implements RestClientConstants {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		new RestTemplateClient().exchange();
+		RestTemplateClient client = new RestTemplateClient();
+
+		client.findById();
+		client.findByGender();
+		client.create();
 	}
 }

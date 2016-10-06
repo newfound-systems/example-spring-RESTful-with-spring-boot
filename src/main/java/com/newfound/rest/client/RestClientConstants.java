@@ -13,7 +13,8 @@ public interface RestClientConstants {
 	public final static String FIND_BY_GENDER_FEMALE = "/find/gender/FEMALE";
 	public final static String FIND_BY_GENDER_MALE = "/find/gender/MALE";
 
-	public final static String CREATE = "/create";
+	public final static String CREATE_AUTO = "/autoCreate";
+	public final static String CREATE = "/manualCreate";
 	public final static String DELETE = "/delete/1";
 
 	public final static String USER = "admin";
