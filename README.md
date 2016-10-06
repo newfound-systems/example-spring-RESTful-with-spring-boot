@@ -89,4 +89,4 @@ We use [Apache Subversion (https://subversion.apache.org/)] for versioning.
 This project is licensed under the Open Free for all License.
 
 ## Acknowledgments
-* Many Inspirations from http://websystique.com for their walk through of Spring related technologies and our big Gurus out in Stack OverFlow. Thanks
+* Many Inspirations from http://www.websystique.com for their walk through of Spring related technologies and our big Gurus out in http://stackoverflow.com. Many Thanks
