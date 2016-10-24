@@ -1,5 +1,5 @@
 # Spring RESTful CRUD Service using SpringBoot
-Comprehensive Spring RESTful Server and Client Application with CRUD Service (inMemory). Contributors are most welcome and you are free to distribute and usage. Liked Sources, Just send Thanks to [NEWFOUND SYSTEMS (http://www.newfound-systems.com) support@newfound-systems.com]
+Comprehensive Spring RESTful Server and Client Application with CRUD Service (inMemory). Contributors are most welcome and you are free to distribute and usage. Liked Sources, Just send Thanks to [NEWFOUND SYSTEMS (http://www.newfound-systems.com) chetan.a@newfound-systems.com]
 
 ## Getting Started
 
